@@ -1,0 +1,31 @@
+.TH DXCC 1 "DECEMBER 2007" Linux "User Manuals"
+.SH NAME
+dxcc \- ham radio callsign DXCC lookup utility
+.SH SYNOPSIS
+.B dxcc [-g] [CALLSIGN]
+.SH DESCRIPTION
+.B dxcc
+determines the ARRL DXCC entity of a ham radio callsign, based on the
+cty.dat country file by Jim Reisert, AD1C (http://country-files.com/).
+
+If a matching country or entity is found, the entity name, continent,
+latitude/longitude and other information are printed.
+
+When invoked with the command line option 
+.B -g
+, a Perl/Tk GUI with an additional world map showing the location of the
+DXCC is show.
+.SH FILES
+.I /usr/(local/)share/dxcc/cty.dat
+.RS
+.I Optional
+country file. A current version of AD1C's country file is already included in
+dxcc.
+.RE
+.I /usr/(local/)share/dxcc/earth.gif
+.RS
+Earth picture for the GUI.
+.RE
+
+.SH AUTHOR
+Fabian Kurz, DJ1YFK <mail@fkurz.net> - http://fkurz.net/ham/dxcc.html
