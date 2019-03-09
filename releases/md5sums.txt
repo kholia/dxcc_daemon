@@ -6,3 +6,4 @@ d25197c7ddae8a04219d6932fb12300c  releases/dxcc-20071026.tar.gz
 8897aa18a3418a41136ab5578d33fb6c  releases/dxcc-20071205.tar.gz
 4d4babee6e7e3a9fb8f95a6ef347f920  releases/dxcc-20071210.tar.gz
 74167d4afef980701fb2bac269117808  releases/dxcc-20080225.tar.gz
+088adda185a440ee163de778968e0817  releases/dxcc-20190309.tar.gz
