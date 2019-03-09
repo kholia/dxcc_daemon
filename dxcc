@@ -2,7 +2,7 @@
 
 # dxcc - determining the DXCC country of a callsign
 # 
-# Copyright (C) 2007  Fabian Kurz, DJ1YFK
+# Copyright (C) 2007-2019  Fabian Kurz, DJ1YFK
 #
 # This program is free software; you can redistribute it and/or modify 
 # it under the terms of the GNU General Public License as published by 
@@ -22,11 +22,11 @@
 use strict;
 use POSIX;
 
-my $version = '20080225';
+my $version = 'VERSION';
 my $gui = 0;
 my $earthfile = '';		# world map. location will be found later.
 my $splash =  "                    Please enter a callsign!";
-my $credits = "dxcc $version (c) 2007 Fabian Kurz, DJ1YFK.  http://fkurz.net/ham/dxcc/
+my $credits = "dxcc $version (c) Fabian Kurz, DJ1YFK.  http://fkurz.net/ham/dxcc.html
 
 Determines the ARRL DXCC entity of a ham radio callsign, based on the cty.dat
 country file by Jim Reisert, AD1C (http://country-files.com/). 

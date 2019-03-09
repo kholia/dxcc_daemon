@@ -1,4 +1,4 @@
-# dxcc Makefile -- Fabian Kurz, DJ1YFK -- http://fkurz.net/ham/dxcc.html
+# dxcc Makefile -- Fabian Kurz, DJ1YFK -- https://fkurz.net/ham/dxcc.html
 
 VERSION = `date +%Y%m%d`
 DESTDIR ?= /usr
@@ -27,6 +27,9 @@ dist:
 	mkdir dxcc-$(VERSION)
 	cp dxcc.png ChangeLog dxcc COPYING earth.gif dxcc.1 README Makefile \
 			dxcc-$(VERSION)
+	sed -i "s/VERSION/$(VERSION)/g" dxcc-$(VERSION)/README
+	sed -i "s/VERSION/$(VERSION)/g" dxcc-$(VERSION)/dxcc
+	sed -i "s/VERSION/$(VERSION)/g" dxcc-$(VERSION)/dxcc.1
 	tar -zcf dxcc-$(VERSION).tar.gz dxcc-$(VERSION)
 	mv dxcc-$(VERSION) releases/
 	mv dxcc-$(VERSION).tar.gz releases/

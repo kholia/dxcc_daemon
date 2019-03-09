@@ -1,4 +1,4 @@
-dxcc 20071210 (c) 2007 Fabian Kurz, DJ1YFK.  http://fkurz.net/ham/dxcc/
+dxcc VERSION by Fabian Kurz, DJ1YFK.  http://fkurz.net/ham/dxcc/
 ------------------------------------------------------------------------
 
 dxcc determines the ARRL DXCC entity of a ham radio callsign, based on the
