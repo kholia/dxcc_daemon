@@ -1,3 +1,7 @@
+20191204 / 2019-12-04  Fabian Kurz <fabian@fkurz.net>
+	* Handle /A like /P or /M (i.e. don't consider it relevant for the DXCC)
+	* Update to latest Big CTY by AD1C (Version 2019-11-20 / 9M6)
+
 20190309 / 2019-03-09  Fabian Kurz <fabian@fkurz.net>
     * Update to latest cty.dat
 	* Handle "full" calls in cty.dat (=)

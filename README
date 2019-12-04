@@ -20,7 +20,8 @@ Latitude:       51.00
 Longitude:      -10.00
 UTC shift:      -1.0
 
-When invoked with the -g flag, a Perl/Tk GUI with the same basic functionality, plus a worldmap showing the location of the DXCC is shown.
+When invoked with the -g flag, a Perl/Tk GUI with the same basic
+functionality, plus a worldmap showing the location of the DXCC is shown.
 
 When invoked with the -m [Prefix] command line option, the beam heading and
 direction to between the two countries is calculated. 
