@@ -1,23 +1,23 @@
 #!/usr/bin/perl
 
 # dxcc - determining the DXCC country of a callsign
-# 
+#
 # Copyright (C) 2007-2019  Fabian Kurz, DJ1YFK
 #
-# This program is free software; you can redistribute it and/or modify 
-# it under the terms of the GNU General Public License as published by 
-# the Free Software Foundation; either version 2 of the License, or 
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
 # (at your option) any later version.
 #
-# This program is distributed in the hope that it will be useful, 
-# but WITHOUT ANY WARRANTY; without even the implied warranty of 
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 # GNU General Public License for more details.
 #
-# You should have received a copy of the GNU General Public License 
-# along with this program; if not, write to the 
-# Free Software Foundation, Inc., 59 Temple Place - Suite 330, 
-# Boston, MA 02111-1307, USA. 
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the
+# Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+# Boston, MA 02111-1307, USA.
 
 use strict;
 use POSIX;
@@ -29,7 +29,7 @@ my $splash =  "                    Please enter a callsign!";
 my $credits = "dxcc $version (c) Fabian Kurz, DJ1YFK.  http://fkurz.net/ham/dxcc.html
 
 Determines the ARRL DXCC entity of a ham radio callsign, based on the cty.dat
-country file by Jim Reisert, AD1C (http://country-files.com/). 
+country file by Jim Reisert, AD1C (http://country-files.com/).
 
 This is free software, and you are welcome to redistribute it
 under certain conditions (see COPYING).";
@@ -52,7 +52,7 @@ if (!$ARGV[0] || ($ARGV[0] =~ /-[^mg]/)) {
 print "$credits
 
 Usage:  dxcc <callsign>\n\n";
-		
+
 exit;
 }
 else {
@@ -90,7 +90,7 @@ unless ($gui) {
 
 ###############################################################################
 # GUI
-# This part is for the GUI only. 
+# This part is for the GUI only.
 ###############################################################################
 
 else {								# if $gui
@@ -101,14 +101,14 @@ else {								# if $gui
 			$hastk = 1;
 		}
 	}
-	
+
 	unless ($hastk) {
 		die "Tk.pm not found. Exiting.";
 	}
 
 	# This is like 'use Tk', except that use is always done at compile
 	# time, which is not wanted in this case (when running w/o gui).
-	require Tk; import Tk; 
+	require Tk; import Tk;
 
 	$earthfile = &search_earth_file;
 
@@ -117,7 +117,7 @@ else {								# if $gui
 	my $callsign='';
 
 	my $dxcc_result = $splash;
-	my $mw = MainWindow->new(); 
+	my $mw = MainWindow->new();
 	$mw->geometry("640x480");
 	$mw->title("dxcc - a DXCC lookup utility");
 
@@ -129,22 +129,22 @@ else {								# if $gui
 	my $b_frame = $mw->Frame( -bd => 2)
 		->pack(-side => 'bottom', -fill => 'both');
 
-	my $canvas = $t_frame->Canvas(-height => 320, -width=> 640  )->pack( );	   
+	my $canvas = $t_frame->Canvas(-height => 320, -width=> 640  )->pack( );
 	my $photo = $t_frame->Photo( -file => $earthfile );
 	my $earth = $canvas->createImage(320,160, -image=> $photo, -tags => 'item');
 
 	# Home-Marker, if $mylon || $mylat set
 	if ($mylon || $mylat) {
 		my $homedot = $canvas->createOval((640*(180 - $mylon)/360)-5,(320*(90 -
-				$mylat)/180)-5, (640*(180 - $mylon)/360)+5, 
+				$mylat)/180)-5, (640*(180 - $mylon)/360)+5,
 				(320*(90 - $mylat)/180)+5, -fill => 'green');
 	}
 
 	$m_frame->Label(-text => "Callsign: ")->pack(-side => 'left');
 	my $call_entry = $m_frame->Entry(-textvariable => \$callsign,
-		-relief => 'sunken', -validate => 'all', -validatecommand => 
+		-relief => 'sunken', -validate => 'all', -validatecommand =>
 		\&validate) ->pack(-side =>'right');
-	
+
 	$call_entry->focus;
 
 	$mw->Label(-textvariable => \$dxcc_result, -justify => 'left',
@@ -153,14 +153,14 @@ else {								# if $gui
 
 	my $exit_b = $b_frame->Button(-text => "Exit", -command => sub { exit })
 		->pack(-side=>'right', -expand => 1);
-	my $clear_b= $b_frame->Button(-text => "Clear", -command => 
+	my $clear_b= $b_frame->Button(-text => "Clear", -command =>
 		sub { $call_entry->delete(0, 'end'); $callsign = ''; })
 		->pack(-side => 'left', -expand => 1);
 
 	my $credits_b = $b_frame->Button(-text => "Credits", -command => \&credits)
 	->pack(-side => 'left', -expand => 1);
 
-	MainLoop(); 
+	MainLoop();
 
 sub validate {
 	if ($_[1] =~ /[0-9A-Za-z\/]/) {
@@ -183,7 +183,7 @@ sub validate {
 			if ($mylat || $mylon) {		# One may be zero :-)
 				$dxcc_result .= sprintf(
 					"Distance (km):  %-20s".
-					"Bearing (°):    %s\n", 
+					"Bearing (°):    %s\n",
 					$distance, $bearing
 				)
 			}
@@ -193,9 +193,9 @@ sub validate {
 		my $lat = 320*(90 - $dxcc[4])/180;
 
 		$canvas->delete($dot) if (defined($dot));
-		
+
 		$dot = $canvas->createOval($lon-5,$lat-5, $lon+5, $lat+5, -fill =>
-				'red') if ($dxcc[2]); 
+				'red') if ($dxcc[2]);
 
 		return 1;
 	}
@@ -205,13 +205,13 @@ sub validate {
 }
 
 sub credits {
-	my $creditwindow = MainWindow->new(); 
+	my $creditwindow = MainWindow->new();
 	$creditwindow->geometry("500x170");
 	$creditwindow->title("dxcc - Credits");
-	$creditwindow->Label(-text => 
+	$creditwindow->Label(-text =>
 	"$credits\n\nMap: http://earthobservatory.nasa.gov/Newsroom/BlueMarble/",
 		-justify => 'left')->pack();
-	my $exit_b = $creditwindow->Button(-text => "Exit", -command => 
+	my $exit_b = $creditwindow->Button(-text => "Exit", -command =>
 		sub { $creditwindow->destroy })
 		->pack(-side=>'right', -expand => 1);
 }
@@ -223,37 +223,37 @@ sub credits {
 #
 # &wpx derives the Prefix following WPX rules from a call. These can be found
 # at: http://www.cq-amateur-radio.com/wpxrules.html
-#  e.g. DJ1YFK/TF3  can be counted as both DJ1 or TF3, but this sub does 
-# not ask for that, always TF3 (= the attached prefix) is returned. If that is 
+#  e.g. DJ1YFK/TF3  can be counted as both DJ1 or TF3, but this sub does
+# not ask for that, always TF3 (= the attached prefix) is returned. If that is
 # not want the OP wanted, it can still be modified manually.
 #
 ###############################################################################
- 
+
 sub wpx {
   my ($prefix,$a,$b,$c);
-  
+
   # First check if the call is in the proper format, A/B/C where A and C
   # are optional (prefix of guest country and P, MM, AM etc) and B is the
   # callsign. Only letters, figures and "/" is accepted, no further check if the
   # callsign "makes sense".
   # 23.Apr.06: Added another "/X" to the regex, for calls like RV0AL/0/P
   # as used by RDA-DXpeditions....
-    
-if ($_[0] =~ 
+
+if ($_[0] =~
 	/^((\d|[A-Z])+\/)?((\d|[A-Z]){3,})(\/(\d|[A-Z])+)?(\/(\d|[A-Z])+)?$/) {
-   
+
     # Now $1 holds A (incl /), $3 holds the callsign B and $5 has C
-    # We save them to $a, $b and $c respectively to ensure they won't get 
+    # We save them to $a, $b and $c respectively to ensure they won't get
     # lost in further Regex evaluations.
-   
+
     ($a, $b, $c) = ($1, $3, $5);
-    if ($a) { chop $a };            # Remove the / at the end 
+    if ($a) { chop $a };            # Remove the / at the end
     if ($c) { $c = substr($c,1,)};  # Remove the / at the beginning
-    
+
     # In some cases when there is no part A but B and C, and C is longer than 2
     # letters, it happens that $a and $b get the values that $b and $c should
     # have. This often happens with liddish callsign-additions like /QRP and
-    # /LGT, but also with calls like DJ1YFK/KP5. ~/.yfklog has a line called    
+    # /LGT, but also with calls like DJ1YFK/KP5. ~/.yfklog has a line called
     # "lidadditions", which has QRP and LGT as defaults. This sorts out half of
     # the problem, but not calls like DJ1YFK/KH5. This is tested in a second
     # try: $a looks like a call (.\d[A-Z]) and $b doesn't (.\d), they are
@@ -266,11 +266,11 @@ if (!$c && $a && $b) {                  # $a and $b exist, no $c
         }
         elsif (($a =~ /\d[A-Z]+$/) && ($b =~ /\d$/)) {   # check for call in $a
         }
-}    
+}
 
 	# *** Added later ***  The check didn't make sure that the callsign
 	# contains a letter. there are letter-only callsigns like RAEM, but not
-	# figure-only calls. 
+	# figure-only calls.
 
 	if ($b =~ /^[0-9]+$/) {			# Callsign only consists of numbers. Bad!
 			return undef;			# exit, undef
@@ -281,22 +281,22 @@ if (!$c && $a && $b) {                  # $a and $b exist, no $c
     #
     # 1.    $a and $c undef --> only callsign, subcases
     # 1.1   $b contains a number -> everything from start to number
-    # 1.2   $b contains no number -> first two letters plus 0 
+    # 1.2   $b contains no number -> first two letters plus 0
     # 2.    $a undef, subcases:
     # 2.1   $c is only a number -> $a with changed number
-    # 2.2   $c is /P,/M,/MM,/AM -> 1. 
+    # 2.2   $c is /P,/M,/MM,/AM -> 1.
     # 2.3   $c is something else and will be interpreted as a Prefix
-    # 3.    $a is defined, will be taken as PFX, regardless of $c 
+    # 3.    $a is defined, will be taken as PFX, regardless of $c
 
     if ((not defined $a) && (not defined $c)) {  # Case 1
             if ($b =~ /\d/) {                    # Case 1.1, contains number
                 $b =~ /(.+\d)[A-Z]*/;            # Prefix is all but the last
                 $prefix = $1;                    # Letters
             }
-            else {                               # Case 1.2, no number 
+            else {                               # Case 1.2, no number
                 $prefix = substr($b,0,2) . "0";  # first two + 0
             }
-    }        
+    }
     elsif ((not defined $a) && (defined $c)) {   # Case 2, CALL/X
            if ($c =~ /^(\d)$/) {              # Case 2.1, number
                 $b =~ /(.+\d)[A-Z]*/;            # regular Prefix in $1
@@ -306,14 +306,14 @@ if (!$c && $a && $b) {                  # $a and $b exist, no $c
                 # like N66A/7 -> N7 this brings the wrong result of N67, but I
                 # think that's rather irrelevant cos such calls rarely appear
                 # and if they do, it's very unlikely for them to have a number
-                # attached.   You can still edit it by hand anyway..  
+                # attached.   You can still edit it by hand anyway..
                 if ($1 =~ /^([A-Z]\d)\d$/) {        # e.g. A45   $c = 0
                                 $prefix = $1 . $c;  # ->   A40
                 }
                 else {                         # Otherwise cut all numbers
                 $1 =~ /(.*[A-Z])\d+/;          # Prefix w/o number in $1
-                $prefix = $1 . $c;}            # Add attached number    
-            } 
+                $prefix = $1 . $c;}            # Add attached number
+            }
             elsif ($c =~ /$csadditions/) {
                 $b =~ /(.+\d)[A-Z]*/;       # Known attachment -> like Case 1.1
                 $prefix = $1;
@@ -345,11 +345,11 @@ if (!$c && $a && $b) {                  # $a and $b exist, no $c
 # case, the superfluous part will be cropped. Since this, however, changes the
 # DXCC of the prefix, this will NOT happen when invoked from with an
 # extra parameter $_[1]; this will happen when invoking it from &dxcc.
-    
+
 if (($prefix =~ /(\w+\d)[A-Z]+\d/) && (not defined $_[1])) {
-        $prefix = $1;                
+        $prefix = $1;
 }
-    
+
 return $prefix;
 }
 else { return ''; }    # no proper callsign received.
@@ -366,23 +366,23 @@ else { return ''; }    # no proper callsign received.
 #    CQ,CR,CS,CT,=CR5FB/LH,=CS2HNI/LH,=CS5E/LH,=CT/DJ5AA/LH,=CT1BWW/LH,=CT1GFK/LH,=CT1GPQ/LGT,
 #    =CT7/ON4LO/LH,=CT7/ON7RU/LH;
 #
-# The first line contains the name of the country, WAZ, ITU zones, continent, 
-# latitude, longitude, UTC difference and main Prefix, the second line contains 
-# possible Prefixes and/or whole callsigns that fit for the country, sometimes 
+# The first line contains the name of the country, WAZ, ITU zones, continent,
+# latitude, longitude, UTC difference and main Prefix, the second line contains
+# possible Prefixes and/or whole callsigns that fit for the country, sometimes
 # followed by zones in brackets (WAZ in (), ITU in []).
 #
-# This sub checks the callsign against this list and the DXCC in which 
-# the best match (most matching characters) appear. This is needed because for 
+# This sub checks the callsign against this list and the DXCC in which
+# the best match (most matching characters) appear. This is needed because for
 # example the CTY file specifies only "D" for Germany, "D4" for Cape Verde.
-# Also some "unusual" callsigns which appear to be in wrong DXCCs will be 
+# Also some "unusual" callsigns which appear to be in wrong DXCCs will be
 # assigned properly this way, for example Antarctic-Callsigns.
-# 
+#
 # Then the callsign (or what appears to be the part determining the DXCC if
 # there is a "/" in the callsign) will be checked against the list of prefixes
 # and the best matching one will be taken as DXCC.
 #
 # The return-value will be an array ("Country Name", "WAZ", "ITU", "Continent",
-# "latitude", "longitude", "UTC difference", "DXCC").   
+# "latitude", "longitude", "UTC difference", "DXCC").
 #
 ###############################################################################
 
@@ -486,9 +486,9 @@ if ($mydxcc[7] =~ /^\*/) {							# WAE country!
 
 $mydxcc[7] =~ s/\///g;
 
-return @mydxcc; 
+return @mydxcc;
 
-} # dxcc ends here 
+} # dxcc ends here
 
 
 sub read_cty {
@@ -568,7 +568,7 @@ sub search_earth_file {
 	if (-e 'earth.gif') {		# current dir
 		return 'earth.gif';
 	}
-	elsif ($0 =~ /(.+)\/bin\/dxcc$/) {	
+	elsif ($0 =~ /(.+)\/bin\/dxcc$/) {
 		if (-e $1."/share/dxcc/earth.gif") {
 			return $1."/share/dxcc/earth.gif"
 		}
